@@ -1,0 +1,20 @@
+name: Build MQEL Online
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: lukka/get-cmake@latest
+    - run: cmake -B build -A x64
+    - run: cmake --build build --config Release
+    - uses: actions/upload-artifact@v4
+      with:
+        name: MQELOnline-DLL
+        path: Bin/*
+        if-no-files-found: warn
